@@ -79,6 +79,9 @@ namespace IndividualProject_BLOG.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
     }
 
     public class ResetPasswordViewModel
