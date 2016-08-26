@@ -1,4 +1,5 @@
-﻿@model IEnumerable<IndividualProject_BLOG.Models.Post>
+﻿@using IndividualProject_BLOG.Classes
+@model IEnumerable<IndividualProject_BLOG.Models.Post>
 
 @{
     ViewBag.Title = "Index";
@@ -20,7 +21,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
-        <th></th>
+        <th>
+            Author
+        </th>
+        <th>
+            Actions
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -29,10 +35,20 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Body)
+            @Utillities.CutText(item.Body)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @if (item.Author != null)
+            {
+                @Html.DisplayFor(modelItem => item.Author.UserName)
+            }
+            else
+            {
+                @:Anonymous
+            }
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

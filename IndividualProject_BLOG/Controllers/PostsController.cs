@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IndividualProject_BLOG.Models;
+using Microsoft.AspNet.Identity;
 
 namespace IndividualProject_BLOG.Controllers
 {
@@ -17,7 +18,7 @@ namespace IndividualProject_BLOG.Controllers
         // GET: Posts
         public ActionResult Index()
         {
-            return View(db.Posts.ToList());
+            return View(db.Posts.Include(p => p.Author).ToList());
         }
 
         // GET: Posts/Details/5
@@ -50,6 +51,7 @@ namespace IndividualProject_BLOG.Controllers
         {
             if (ModelState.IsValid)
             {
+                post.Author = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
