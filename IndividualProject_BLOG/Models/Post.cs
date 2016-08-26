@@ -28,5 +28,7 @@ namespace IndividualProject_BLOG.Models
         public DateTime Date { get; set; }
 
         public ApplicationUser Author { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }
