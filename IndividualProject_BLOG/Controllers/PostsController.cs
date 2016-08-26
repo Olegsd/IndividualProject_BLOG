@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace IndividualProject_BLOG.Controllers
 {
+    [ValidateInput(false)]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -47,7 +48,7 @@ namespace IndividualProject_BLOG.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Body,Date")] Post post)
+        public ActionResult Create([Bind(Include = "Id,Title,Body")] Post post)
         {
             if (ModelState.IsValid)
             {
