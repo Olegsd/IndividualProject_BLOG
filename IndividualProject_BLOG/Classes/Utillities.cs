@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using Microsoft.AspNet.Identity;
 
 namespace IndividualProject_BLOG.Classes
 {
@@ -13,6 +16,12 @@ namespace IndividualProject_BLOG.Classes
                 return text;
             var shortText = text.Substring(0, maxLength) + "...";
             return shortText;
+        }
+
+        [Authorize(Roles = "Administror")]
+        public static bool IsInRole()
+        {
+            return true;
         }
     }
 }
