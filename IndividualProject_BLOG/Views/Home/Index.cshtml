@@ -4,6 +4,8 @@
 @model IEnumerable<IndividualProject_BLOG.Models.Post>
 
 <section class="row">
+    <h1 class="title">Wellcome to Oleg's Blog, Have fun!</h1>
+    <h3 class="title">Recent posts are:</h3>
 
     @foreach (var post in Model)
     {
@@ -11,17 +13,17 @@
             <h2 class="title">@Utillities.CutText(post.Title)</h2>
             <div class="about">
                 Published on <i>@post.Date</i>
-                    @if (post.Author != null)
-                    {
-                        @:by <i>@post.Author.FullName (@post.Author.UserName)</i>
-                    }
-                    else
-                    {
-                        <i>Anonymous</i>
-                    }
+                @if (post.Author != null)
+                {
+                    @:by <i>@post.Author.FullName (@post.Author.UserName)</i>
+                }
+                else
+                {
+                    <i>Anonymous</i>
+                }
             </div>
             <div class="body">
-                @Html.Raw(Utillities.CutText(post.Body)) 
+                @Html.Raw(Utillities.CutText(post.Body))
             </div>
         </article>
     }
