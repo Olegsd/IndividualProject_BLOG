@@ -17,11 +17,5 @@ namespace IndividualProject_BLOG.Classes
             var shortText = text.Substring(0, maxLength) + "...";
             return shortText;
         }
-
-        [Authorize(Roles = "Administror")]
-        public static bool IsInRole()
-        {
-            return true;
-        }
     }
 }

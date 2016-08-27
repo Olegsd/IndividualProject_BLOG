@@ -8,18 +8,17 @@
     @foreach (var post in Model)
     {
         <article class="post col-md-6">
-            <h2 class="title">@post.Title</h2>
+            <h2 class="title">@Utillities.CutText(post.Title)</h2>
             <div class="about">
-                Published by
-                @if (post.Author != null)
-                {
-                    @Html.DisplayFor(modelItem => post.Author.UserName)
-                }
-                else
-                {
-                    @:Anonymous
-            }
-                on <i>@post.Date</i>
+                Published on <i>@post.Date</i>
+                    @if (post.Author != null)
+                    {
+                        @:by <i>@post.Author.FullName (@post.Author.UserName)</i>
+                    }
+                    else
+                    {
+                        <i>Anonymous</i>
+                    }
             </div>
             <div class="body">
                 @Html.Raw(Utillities.CutText(post.Body)) 

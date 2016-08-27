@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +14,7 @@ namespace IndividualProject_BLOG.Controllers
         {
             var db = new ApplicationDbContext();
             var post = db.Posts.OrderByDescending(p => p.Date).Take(4);
-            return View(post.ToList());
+            return View(post.Include(p => p.Author).ToList());
         }
     }
 }
