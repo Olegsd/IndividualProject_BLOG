@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using IndividualProject_BLOG.Models;
 using Microsoft.AspNet.Identity;
+using WebGrease.Css.Extensions;
 
 namespace IndividualProject_BLOG.Controllers
 {
@@ -22,7 +23,9 @@ namespace IndividualProject_BLOG.Controllers
         // GET: Posts
         public ActionResult Index()
         {
-            return View(db.Posts.Include(p => p.Author).ToList());
+            var post = db.Posts.Include(p => p.Author).ToList();
+            
+            return View(post);
         }
 
         // GET: Posts/Details/5

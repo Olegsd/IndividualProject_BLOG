@@ -1,4 +1,8 @@
-﻿@model IndividualProject_BLOG.Models.Post
+﻿@using IndividualProject_BLOG.Classes
+@using IndividualProject_BLOG.Models
+@model IndividualProject_BLOG.Models.Post
+
+
 
 @{
     ViewBag.Title = "Details";
@@ -40,3 +44,26 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div>
+    @if (Model.Comments != null)
+    {
+        @:Comments:
+        <ul>
+            @foreach (var comment in Model.Comments)
+            {
+                <li>
+                    @comment.Text
+                    @if (comment.Author != null)
+                    {
+                        @: (by @comment.Author)
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+    <p>No comments</p>
+    }
+</div>
