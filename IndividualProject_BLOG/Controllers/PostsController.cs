@@ -67,7 +67,7 @@ namespace IndividualProject_BLOG.Controllers
         }
 
         // GET: Posts/Edit/5
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrators")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -79,6 +79,8 @@ namespace IndividualProject_BLOG.Controllers
             {
                 return HttpNotFound();
             }
+            var authors = db.Users.ToList();
+            ViewBag.Authors = authors; 
             return View(post);
         }
 
@@ -86,9 +88,9 @@ namespace IndividualProject_BLOG.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrators")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Body,Date")] Post post)
+        public ActionResult Edit([Bind(Include = "Id,Title,Body,Date,Author_Id")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +102,7 @@ namespace IndividualProject_BLOG.Controllers
         }
 
         // GET: Posts/Delete/5
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrators")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -116,7 +118,7 @@ namespace IndividualProject_BLOG.Controllers
         }
 
         // POST: Posts/Delete/5
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrators")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
