@@ -15,6 +15,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author.FullName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
 
@@ -27,7 +35,7 @@
         </dt>
 
         <dd>
-            <textarea disabled ="disabled" class="form-control text-box multi-line" rows ="15" style ="width:100%">@Model.Body</textarea>
+            <textarea disabled="disabled" class="form-control text-box multi-line" rows="15" style="width: 100%">@Model.Body</textarea>
         </dd>
 
         <dt>

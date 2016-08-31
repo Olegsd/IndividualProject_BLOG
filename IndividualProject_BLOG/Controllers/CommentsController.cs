@@ -20,6 +20,7 @@ namespace IndividualProject_BLOG.Controllers
         public ActionResult Index()
         {
             var comments = db.Comments.Include(c => c.Author);
+            ViewBag.Author = new SelectList(db.Users, "Id", "FullName", "UserName");
             return View(comments.ToList());
         }
 
@@ -31,6 +32,7 @@ namespace IndividualProject_BLOG.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Comment comment = db.Comments.Find(id);
+            
             if (comment == null)
             {
                 return HttpNotFound();

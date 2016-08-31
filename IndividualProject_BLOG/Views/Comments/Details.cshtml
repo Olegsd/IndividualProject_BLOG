@@ -1,7 +1,10 @@
-﻿@model IndividualProject_BLOG.Models.Comment
+﻿@using Microsoft.Ajax.Utilities
+@using IndividualProject_BLOG.Controllers
+@using IndividualProject_BLOG.Models
+@model IndividualProject_BLOG.Models.Comment
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Index";
 }
 
 <h2>Details</h2>
@@ -11,11 +14,18 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Author.FullName)
+            @Html.DisplayNameFor(model => model.Author)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.FullName)
+            @if (Model.Author_Id != null)
+            {
+                @Model.Author_Id
+            }
+            else
+            {
+                <i>Anonymous</i>
+            }
         </dd>
 
         <dt>
@@ -23,7 +33,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Text)
+            <textarea disabled="disabled" class="form-control text-box multi-line" rows="15" style="width:100%">@Model.Text</textarea>
         </dd>
 
         <dt>

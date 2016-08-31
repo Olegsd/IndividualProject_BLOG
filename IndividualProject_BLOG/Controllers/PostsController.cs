@@ -36,12 +36,15 @@ namespace IndividualProject_BLOG.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Post post = db.Posts.Find(id);
+            post.Author = db.Users.Find(post.Author_Id);
+
             if (post == null)
             {
                 return HttpNotFound();
             }
             return View(post);
         }
+
 
         // GET: Posts/Create
         [Authorize]
