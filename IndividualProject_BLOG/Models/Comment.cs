@@ -27,6 +27,6 @@ namespace IndividualProject_BLOG.Models
         [ForeignKey("Author_Id")]
         public ApplicationUser Author { get; set; }
 
-        public Post Post { get; set; }
+        public Post Posts { get; set; }
     }
 }
