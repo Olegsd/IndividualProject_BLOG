@@ -19,7 +19,8 @@ namespace IndividualProject_BLOG.Controllers
         // GET: Comments
         public ActionResult Index()
         {
-            var comments = db.Comments.Include(c => c.Author);
+            var comments = db.Comments.Include(c => c.Author).Include(c => c.Posts).OrderByDescending(d => d.Posts.Date).ThenBy(t => t.Posts.Title);
+            
             ViewBag.Author = new SelectList(db.Users, "Id", "FullName", "UserName");
             return View(comments);
         }
@@ -31,8 +32,9 @@ namespace IndividualProject_BLOG.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
-            
+            var comment = db.Comments.Find(id);
+            comment.Author = db.Users.Find(comment.Author_Id);
+
             if (comment == null)
             {
                 return HttpNotFound();

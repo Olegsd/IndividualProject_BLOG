@@ -18,9 +18,9 @@
         </dt>
 
         <dd>
-            @if (Model.Author_Id != null)
+            @if (Model.Author != null)
             {
-                @Model.Author_Id
+                @Model.Author.FullName @: (@Model.Author.UserName)
             }
             else
             {

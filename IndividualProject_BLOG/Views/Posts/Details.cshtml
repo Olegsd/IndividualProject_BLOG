@@ -19,7 +19,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.FullName)
+            @if (Model.Author != null)
+            {
+                @Model.Author.FullName @: (@Model.Author.UserName)
+            }
+            else
+            {
+                <i>Anonymous</i>
+            }
         </dd>
 
         <dt>
