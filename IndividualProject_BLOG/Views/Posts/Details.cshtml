@@ -56,9 +56,71 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("Administrators"))
+    {
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Id}) @:|
+        @Html.ActionLink("Back to List", "Index");
+    }
+    else
+    {
+        @Html.ActionLink("Back to List", "Index");
+    }
 </p>
+
+
+<hr/>
+@Html.ActionLink("Create Comment", "CreateComm", new { id = Model.Id })
+<table class="table">
+    <tr>
+        <th>
+            Comment
+        </th>
+        <th>
+            Date
+        </th>
+        <th>Comment Author</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model.Comments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @if (item.Author != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Author.FullName)
+                }
+                else
+                {
+                    <i>Anonymous</i>
+                }
+            </td>
+            <td>
+                @if (User.IsInRole("Administrators"))
+                {
+                    @Html.ActionLink("Edit", "EditComm", new { id = item.Id }) @:|
+                    @Html.ActionLink("Details", "DetailsComm", new { id = item.Id }) @:|
+                    @Html.ActionLink("Delete", "DeleteComm", new { id = item.Id })
+                }
+                else
+                {
+                    @Html.ActionLink("Details", "DetailsComm", new { id = item.Id })
+                }
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
 
 @*<div>
     @if (Model.Comments != null)

@@ -4,7 +4,7 @@
 @model IndividualProject_BLOG.Models.Comment
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DetailsComm";
 }
 
 <h2>Details</h2>
@@ -49,11 +49,11 @@
 <p>
     @if (User.IsInRole("Administrators"))
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) @:|
-        @Html.ActionLink("Back to List", "Index");
+        @Html.ActionLink("Edit", "EditComm", new { id = Model.Id }) @:|
+        @Html.ActionLink("Back to List", "Details", new { id = Model.Posts_Id });
     }
     else
     {
-        @Html.ActionLink("Back to List", "Index");
+        @Html.ActionLink("Back to List", "Details", new { id = Model.Posts_Id });
     }
 </p>

@@ -37,6 +37,7 @@ namespace IndividualProject_BLOG.Controllers
             }
             Post post = db.Posts.Find(id);
             post.Author = db.Users.Find(post.Author_Id);
+            post.Comments = db.Comments.Include(c => c.Posts).Include(c => c.Author).Include(c => c.Posts).Where(c => c.Posts.Id == post.Id).OrderByDescending(c => c.Date);
 
             if (post == null)
             {
@@ -76,6 +77,7 @@ namespace IndividualProject_BLOG.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult Edit(int? id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -133,6 +135,126 @@ namespace IndividualProject_BLOG.Controllers
             db.Posts.Remove(post);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        //Comments Controllers
+
+        // GET: Comments
+        public ActionResult IndexComm()
+        {
+            var comments = db.Comments.Include(c => c.Author).Include(c => c.Posts).OrderByDescending(d => d.Posts.Date).ThenBy(t => t.Posts.Title);
+
+            ViewBag.Author = new SelectList(db.Users, "Id", "FullName", "UserName");
+            return View(comments);
+        }
+
+        // GET: Comments/Details/5
+        public ActionResult DetailsComm(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var comment = db.Comments.Find(id);
+            comment.Author = db.Users.Find(comment.Author_Id);
+
+            if (comment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(comment);
+        }
+
+        // GET: Comments/Create
+        [Authorize]
+        public ActionResult CreateComm()
+        {
+            var posts = db.Posts.ToList();
+            ViewBag.Posts = posts;
+            ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName");
+            return View();
+        }
+
+        // POST: Comments/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateComm([Bind(Include = "Id,Text,Posts_ID")] Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                comment.Author = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                db.Comments.Add(comment);
+                db.SaveChanges();
+                return RedirectToAction("IndexComm");
+            }
+
+            ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName", comment.Author_Id);
+            return View(comment);
+        }
+
+        // GET: Comments/Edit/5
+        [Authorize(Roles = "Administrators")]
+        public ActionResult EditComm(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Comment comment = db.Comments.Find(id);
+            if (comment == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName", comment.Author_Id);
+            return View(comment);
+        }
+
+        // POST: Comments/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [Authorize(Roles = "Administrators")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditComm([Bind(Include = "Id,Text,Date,Author_Id")] Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(comment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexComm");
+            }
+            ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName", comment.Author_Id);
+            return View(comment);
+        }
+        // GET: Comments/Delete/5
+        [Authorize(Roles = "Administrators")]
+        public ActionResult DeleteComm(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Comment comment = db.Comments.Find(id);
+            if (comment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(comment);
+        }
+
+        // POST: Comments/Delete/5
+        [HttpPost, ActionName("DeleteComm")]
+        [Authorize(Roles = "Administrators")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmedComm(int id)
+        {
+            Comment comment = db.Comments.Find(id);
+            db.Comments.Remove(comment);
+            db.SaveChanges();
+            return RedirectToAction("IndexComm");
         }
 
         protected override void Dispose(bool disposing)

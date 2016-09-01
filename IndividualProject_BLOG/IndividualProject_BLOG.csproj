@@ -250,6 +250,11 @@
     <Content Include="Views\Comments\Details.cshtml" />
     <Content Include="Views\Comments\Edit.cshtml" />
     <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Posts\EditComm.cshtml" />
+    <Content Include="Views\Posts\CreateComm.cshtml" />
+    <Content Include="Views\Posts\IndexComm.cshtml" />
+    <Content Include="Views\Posts\DeleteComm.cshtml" />
+    <Content Include="Views\Posts\DetailsComm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

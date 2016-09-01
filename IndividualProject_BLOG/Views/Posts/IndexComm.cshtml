@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<IndividualProject_BLOG.Models.Comment>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "IndexComm";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateComm")
 </p>
 <table class="table">
     <tr>
@@ -48,13 +48,13 @@
         <td>
             @if (User.IsInRole("Administrators"))
             {
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @:|
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) @:|
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Edit", "EditComm", new { id = item.Id }) @:|
+                @Html.ActionLink("Details", "DetailsComm", new { id = item.Id }) @:|
+                @Html.ActionLink("Delete", "DeleteComm", new { id = item.Id })
             }
             else
             {
-                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @Html.ActionLink("Details", "DetailsComm", new { id = item.Id })
             }
         </td>
     </tr>
