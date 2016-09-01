@@ -17,9 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
+        <th>Author</th>
         <th>Actions</th>
     </tr>
 
@@ -34,7 +32,7 @@
         <td>
             @if (item.Author != null)
             {
-                @item.Author.FullName @:(@item.Author.UserName)
+                @Html.DisplayFor(modelItem => item.Author.FullName)
             }
             else
             {

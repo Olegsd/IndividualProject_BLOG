@@ -21,7 +21,7 @@ namespace IndividualProject_BLOG.Controllers
         {
             var comments = db.Comments.Include(c => c.Author);
             ViewBag.Author = new SelectList(db.Users, "Id", "FullName", "UserName");
-            return View(comments.ToList());
+            return View(comments);
         }
 
         // GET: Comments/Details/5
@@ -44,6 +44,8 @@ namespace IndividualProject_BLOG.Controllers
         [Authorize]
         public ActionResult Create()
         {
+            var posts = db.Posts.ToList();
+            ViewBag.Posts = posts;
             ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName");
             return View();
         }
@@ -54,7 +56,7 @@ namespace IndividualProject_BLOG.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Text")] Comment comment)
+        public ActionResult Create([Bind(Include = "Id,Text,Posts_ID")] Comment comment)
         {
             if (ModelState.IsValid)
             {

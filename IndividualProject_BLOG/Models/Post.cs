@@ -33,9 +33,6 @@ namespace IndividualProject_BLOG.Models
         [ForeignKey("Author_Id")]
         public ApplicationUser Author { get; set; }
 
-        public string Comment_Id { get; set; }
-
-        [ForeignKey("Comment_Id")]
         public IEnumerable<Comment> Comments { get; set; }
     }
 }

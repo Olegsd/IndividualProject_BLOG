@@ -24,9 +24,12 @@ namespace IndividualProject_BLOG.Models
 
         public string Author_Id { get; set; }
 
+        public int Posts_Id { get; set; }
+
         [ForeignKey("Author_Id")]
         public ApplicationUser Author { get; set; }
 
+        [ForeignKey("Posts_Id")]
         public Post Posts { get; set; }
     }
 }
