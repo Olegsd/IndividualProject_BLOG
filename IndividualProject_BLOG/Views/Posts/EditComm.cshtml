@@ -42,7 +42,11 @@
                 @Html.ValidationMessageFor(model => model.Author_Id, "", new { @class = "text-danger" })
             </div>
         </div>
+        
         @Html.HiddenFor(model => model.Posts_Id)
+        @{
+            ViewBag.Posts_Id = Model.Posts_Id;
+        }
         @*<div class="form-group">
             @Html.LabelFor(model => model.Posts.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

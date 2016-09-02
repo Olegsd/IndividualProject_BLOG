@@ -8,6 +8,7 @@ using System.Net;
 using System.Security.Authentication.ExtendedProtection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using IndividualProject_BLOG.Models;
@@ -189,7 +190,7 @@ namespace IndividualProject_BLOG.Controllers
                 comment.Posts = db.Posts.FirstOrDefault(p => p.Id == id);
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = comment.Posts_Id });
             }
 
             ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName", comment.Author_Id);
@@ -224,10 +225,9 @@ namespace IndividualProject_BLOG.Controllers
             if (ModelState.IsValid)
             {
                 //comment.Posts = db.Posts.FirstOrDefault(p => p.Id == id);
-                //db.Comments.AddOrUpdate(comment);
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new {id = comment.Posts_Id });
             }
             ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName", comment.Author_Id);
             return View(comment);
@@ -257,7 +257,7 @@ namespace IndividualProject_BLOG.Controllers
             Comment comment = db.Comments.Find(id);
             db.Comments.Remove(comment);
             db.SaveChanges();
-            return RedirectToAction("IndexComm");
+            return RedirectToAction("Details", new { id = comment.Posts_Id });
         }
 
         protected override void Dispose(bool disposing)
