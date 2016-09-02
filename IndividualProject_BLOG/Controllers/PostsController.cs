@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Security.Authentication.ExtendedProtection;
@@ -167,12 +168,11 @@ namespace IndividualProject_BLOG.Controllers
 
         // GET: Comments/Create
         [Authorize]
-        public ActionResult CreateComm()
+        public ActionResult CreateComm(int? id)
         {
-            var posts = db.Posts.ToList();
-            ViewBag.Posts = posts;
+            var comment = db.Comments.Find(id);
             ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName");
-            return View();
+            return View(comment);
         }
 
         // POST: Comments/Create
@@ -181,14 +181,15 @@ namespace IndividualProject_BLOG.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateComm([Bind(Include = "Id,Text,Posts_ID")] Comment comment)
+        public ActionResult CreateComm([Bind(Include = "Id,Text")] Comment comment, int? id)
         {
             if (ModelState.IsValid)
             {
                 comment.Author = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                comment.Posts = db.Posts.FirstOrDefault(p => p.Id == id);
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("IndexComm");
+                return RedirectToAction("Index");
             }
 
             ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName", comment.Author_Id);
@@ -218,13 +219,15 @@ namespace IndividualProject_BLOG.Controllers
         [HttpPost]
         [Authorize(Roles = "Administrators")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditComm([Bind(Include = "Id,Text,Date,Author_Id")] Comment comment)
+        public ActionResult EditComm([Bind(Include = "Id,Text,Date,Author_Id,Posts_Id")] Comment comment, int? id)
         {
             if (ModelState.IsValid)
             {
+                //comment.Posts = db.Posts.FirstOrDefault(p => p.Id == id);
+                //db.Comments.AddOrUpdate(comment);
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("IndexComm");
+                return RedirectToAction("Index");
             }
             ViewBag.Author_Id = new SelectList(db.Users, "Id", "FullName", comment.Author_Id);
             return View(comment);
